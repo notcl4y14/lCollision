@@ -58,9 +58,15 @@ end
 ## API or something
 
 `class Collider - An object for detecting collisions (hitbox)`
+
 `Collider lCollision:new(x: number, y: number, width: number, height: number) - Creates a new Collider instance`
+
 `void Collider:draw() - Draws a line rectangle at the collider's position`
+
 `boolean Collider:collides(collider: Collider) - Check if the collider collides with another given one and returns true if so`
+
 `boolean Collider:insideOf(collider: Collider) - Check if the collider is INSIDE of the given collider and returns true if so`
+
 `boolean Collider:onBorder(collider: Collider) - Check if the collider is on given collider's borders and NOT inside of it (collides() and not insideOf()`
+
 `void Collider:separate(collider: Collider) - Separates a collider from another on when they collide`
