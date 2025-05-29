@@ -1,20 +1,60 @@
-# lCollision
+# lcol
 
-lCollision is a simple (I guess) collision library for love2D! It's still under development but it still has some things! (But only the rectangle collider right now)
-Here's an example code:
+(Formerly known as lCollision)
+
+lcol is a simple collision library for love2D. Features included:
+- Colliders
+- Collision checking and separating
+- That's kind of it
+
+Colliders are NOT game objects. They are rather components of a game object that serves purpose of handling collisions. Therefore, they do NOT include other components such as images, scripts and physics handlers.
+
+## How to use it properly
+
+Suppose you have a game object class that has a bunch of components:
+```lua
+local GameObject = {
+	.sprite = nil,
+	.pos = {0, 0},
+	.size = {0, 0},
+	.update = nil,
+	.draw = nil,
+}
+```
+
+To put a collider into it, you need to put it like this:
+```lua
+local GameObject = {
+	.sprite = nil,
+	.collider = nil,
+	.update = nil,
+	.draw = nil,
+}
+```
+As you can see here, .pos and .size components are replaced by a single collider. Because the collider object already provides these properties.
+
+Now, the following example shows how NOT to use collider.
+```lua
+local collider = lcol.collider(10, 10, 20, 20)
+collider.sprite = love.graphics.loadImage("char.png")
+```
+Again, collider is a separate component that provides a box that can handle collisions. Not a sprite.
+
+Now, all of that said is optional for you. These are advices, not rules. You can even use single colliders as game objects if you don't need other components. Also that example with GameObject is optional too.
+
+## Example
 
 ```lua
-local lCollision = require("lCollision")
+local lcol = require("lcol")
 
-local x = 10
-local y = 10
-
--- Initializing colliders
-playerCollider = lCollision:new(x, y, 50, 50)
-lavaCollider = lCollision:new(200, 100, 100, 100)
-wallCollider = lCollision:new(100, 10, 100, 50)
+local spawn_x = 10
+local spawn_y = 10
 
 function love.load()
+	-- Initializing colliders
+	playerCollider = lcol.collider(spawn_x, spawn_y, 50, 50)
+	lavaCollider = lcol.collider(500, 200, 200, 200)
+	wallCollider = lcol.collider(300, 10, 300, 50)
 end
 
 function love.update(dt)
@@ -33,11 +73,13 @@ function love.update(dt)
 	
 	-- Collision detection
 	if playerCollider:collides(lavaCollider) then
-		playerCollider.x = x
-		playerCollider.y = y
+		playerCollider.x = spawn_x
+		playerCollider.y = spawn_y
 	end
 
-	playerCollider:separate(wallCollider)
+	if playerCollider:collides(wallCollider) then
+		playerCollider:separate(wallCollider)
+	end
 end
 
 function love.draw()
@@ -55,18 +97,14 @@ function love.draw()
 end
 ```
 
-## API or something
+## API
 
-`class Collider - An object for detecting collisions (hitbox)`
-
-`Collider lCollision:new(x: number, y: number, width: number, height: number) - Creates a new Collider instance`
-
-`void Collider:draw() - Draws a line rectangle at the collider's position`
-
-`boolean Collider:collides(collider: Collider) - Check if the collider collides with another given one and returns true if so`
-
-`boolean Collider:insideOf(collider: Collider) - Check if the collider is INSIDE of the given collider and returns true if so`
-
-`boolean Collider:onBorder(collider: Collider) - Check if the collider is on given collider's borders and NOT inside of it (collides() and not insideOf()`
-
-`void Collider:separate(collider: Collider) - Separates a collider from another on when they collide`
+```
+lcol.collider (x, y, w, h) - Creates a new collider instance with given position and size.
+lcol.collides (c1, c2) - Checks whether or not c1 and c2 colliders collide with each other.
+lcol.separate (c1, c2) - Separates c1 from c2. (This function does NOT check their collision first, that relies on the user code)
+lcol.draw (c, mode = "line" ["line"|"fill"]) - Draws a rectangle that represents a collider.
+collider:collides (c) - Shorthand version of lcol.collides
+collider:separate (c) - Shorthand version of lcol.separate
+collider:draw - Shorthand version of lcol.draw
+```

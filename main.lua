@@ -1,14 +1,13 @@
-local lCollision = require("lCollision")
+local lcol = require("lcol")
 
-local x = 10
-local y = 10
-
--- Initializing colliders
-playerCollider = lCollision:new(x, y, 50, 50)
-lavaCollider = lCollision:new(500, 200, 200, 200)
-wallCollider = lCollision:new(300, 10, 300, 50)
+local spawn_x = 10
+local spawn_y = 10
 
 function love.load()
+	-- Initializing colliders
+	playerCollider = lcol.collider(spawn_x, spawn_y, 50, 50)
+	lavaCollider = lcol.collider(500, 200, 200, 200)
+	wallCollider = lcol.collider(300, 10, 300, 50)
 end
 
 function love.update(dt)
@@ -27,11 +26,13 @@ function love.update(dt)
 	
 	-- Collision detection
 	if playerCollider:collides(lavaCollider) then
-		playerCollider.x = x
-		playerCollider.y = y
+		playerCollider.x = spawn_x
+		playerCollider.y = spawn_y
 	end
 
-	playerCollider:separate(wallCollider)
+	if playerCollider:collides(wallCollider) then
+		playerCollider:separate(wallCollider)
+	end
 end
 
 function love.draw()
