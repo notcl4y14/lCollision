@@ -7,7 +7,8 @@ function love.load()
 	-- Initializing colliders
 	playerCollider = lcol.collider(spawn_x, spawn_y, 50, 50)
 	lavaCollider = lcol.collider(500, 200, 200, 200)
-	wallCollider = lcol.collider(300, 10, 300, 50)
+	wallCollider1 = lcol.collider(300, 10, 300, 50)
+	wallCollider2 = lcol.collider(605, 65, 50, 100)
 end
 
 function love.update(dt)
@@ -30,8 +31,12 @@ function love.update(dt)
 		playerCollider.y = spawn_y
 	end
 
-	if playerCollider:collides(wallCollider) then
-		playerCollider:separate(wallCollider)
+	if playerCollider:collides(wallCollider1) then
+		playerCollider:separate(wallCollider1)
+	end
+
+	if playerCollider:collides(wallCollider2) then
+		playerCollider:separate(wallCollider2)
 	end
 end
 
@@ -46,5 +51,6 @@ function love.draw()
 
 	-- Draw a wall as a white square
 	love.graphics.setColor(1, 1, 1, 1)
-	wallCollider:draw()
+	wallCollider1:draw()
+	wallCollider2:draw()
 end

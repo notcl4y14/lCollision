@@ -99,12 +99,74 @@ end
 
 ## API
 
-```
-lcol.collider (x, y, w, h) - Creates a new collider instance with given position and size.
-lcol.collides (c1, c2) - Checks whether or not c1 and c2 colliders collide with each other.
-lcol.separate (c1, c2) - Separates c1 from c2. (This function does NOT check their collision first, that relies on the user code)
-lcol.draw (c, mode = "line" ["line"|"fill"]) - Draws a rectangle that represents a collider.
-collider:collides (c) - Shorthand version of lcol.collides
-collider:separate (c) - Shorthand version of lcol.separate
-collider:draw - Shorthand version of lcol.draw
+```lua
+-- --------------------------------
+-- lcol (module) functions
+-- --------------------------------
+
+-- Creates a new collider
+-- @param x number
+-- @param y number
+-- @param w number
+-- @param h number
+-- @return boolean
+function lcol.collider (x, y, w, h)
+
+-- Checks if both colliders are currently colliding
+-- @param c1 lcollider
+-- @param c2 lcollider
+-- @return boolean
+function lcol.collides(c1, c2)
+
+-- Checks collider A collides with collider B
+-- at specific offset of collider A position
+-- @param c1 lcollider
+-- @param c2 lcollider
+-- @param ox number
+-- @param oy number
+-- @return boolean
+function lcol.collidesAt(c1, c2, ox, oy)
+
+-- Pushes collider A from collider B
+-- to the closest side of collider B
+-- @param c1 lcollider
+-- @param c2 lcollider
+-- @return boolean
+function lcol.separate(c1, c2)
+
+-- Draws collider
+-- Parameter mode is "line" by default. ("line"|"fill")
+-- @param collider lcollider
+-- @param mode string?
+function lcol.draw(collider, mode)
+
+-- --------------------------------
+-- lcollider methods
+-- --------------------------------
+
+-- Checks if collider is currently colliding
+-- with another collider
+-- @param collider lcollider
+-- @return boolean
+function lcollider:collides (collider)
+
+-- Checks if collider collides
+-- with another collider at specific offset
+-- @param collider lcollider
+-- @param ox number
+-- @param oy number
+-- @return boolean
+function lcollider:collidesAt (collider, ox, oy)
+
+-- Pushes collider A from collider B
+-- to the closest side of collider B
+-- @param collider lcollider
+-- @return boolean
+function lcollider:separate (collider)
+
+-- Draws collider
+-- Parameter mode is "line" by default. ("line"|"fill")
+-- @param mode string?
+-- @return boolean
+function lcollider:draw (mode)
 ```
