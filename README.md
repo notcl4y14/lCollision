@@ -40,7 +40,7 @@ collider.sprite = love.graphics.loadImage("char.png")
 ```
 Again, collider is a separate component that provides a box that can handle collisions. Not a sprite.
 
-Now, all of that said is optional for you. These are advices, not rules. You can even use single colliders as game objects if you don't need other components. Also that example with GameObject is optional too.
+Now, all of that said is up to you to choose. These are advices, not rules. You can even use single colliders as game objects if you don't need other components.
 
 ## Example
 
